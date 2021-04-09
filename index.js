@@ -36,9 +36,21 @@ const wagesEarnedOnDate = (employeeRecordObj, date) => {
 };
 
 const allWagesFor = (employeeRecordObj) => {
-
+    const allDates = employeeRecordObj.timeInEvents.map(element => element.date)
+    const allWagesArray = allDates.map(date => {
+        return wagesEarnedOnDate(employeeRecordObj, date)
+    });
+    const allWages = allWagesArray.reduce((total, dayWage) => { return total + dayWage }, 0)
+    return allWages;
 };
 
-const findEmployeeByFirstName = () => {};
+const findEmployeeByFirstName = (arrayOfEmployeeRecords, firstName) => {
+    return arrayOfEmployeeRecords.find(employee => employee.firstName === firstName);
+};
 
-const calculatePayroll = () => {};
+const calculatePayroll = (arrayOfEmployeeRecords) => {
+    const arrayOfWagesForEachEmployee = arrayOfEmployeeRecords.map(employee => allWagesFor(employee))
+    return arrayOfWagesForEachEmployee.reduce((aggregator, employeeWage) => aggregator + employeeWage, 0)
+};
+
+// const obj = {firstName: "Julius", familyName: "Caesar", title: "General", payPerHour: 27, timeInEvents: [{type: "timeIn", date: "0044-03-14", hour: 600},{type: "timeIn", date: "0044-03-12", hour: 600}], timeOutEvents: [{type: "timeOut", date: "0044-03-14", hour: 1600},{type: "timeOut", date: "0044-03-12", hour: 1800}]};
